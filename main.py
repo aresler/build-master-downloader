@@ -13,9 +13,9 @@ class InvalidFilePatternError(Exception):
 
 class TCclient:
     def __init__(self, config):
-        self.base_url = self.validate_base_url(config['general']['base_url'])
-        self.token = config['general']['token']
-        self.verify = config.getboolean('general', 'ssl_verify')
+        self.base_url = self.validate_base_url(config['downloader']['base_url'])
+        self.token = config['downloader']['token']
+        self.verify = config.getboolean('downloader', 'ssl_verify')
 
     @staticmethod
     def validate_link(link: str) -> str:
