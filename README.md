@@ -1,3 +1,8 @@
+### WARNING
+
+An experimental branch to test automatic installation. For now Mac only.
+
+---
 A simple script to download latest master build from TeamCity build server
 
 ### Usage

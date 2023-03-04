@@ -3,6 +3,7 @@ import configparser
 import os
 import requests
 import shutil
+from installer import install_app
 
 
 class InvalidFilePatternError(Exception):
@@ -13,9 +14,9 @@ class InvalidFilePatternError(Exception):
 
 class TCclient:
     def __init__(self, config):
-        self.base_url = self.validate_base_url(config['general']['base_url'])
-        self.token = config['general']['token']
-        self.verify = config.getboolean('general', 'ssl_verify')
+        self.base_url = self.validate_base_url(config['downloader']['base_url'])
+        self.token = config['downloader']['token']
+        self.verify = config.getboolean('downloader', 'ssl_verify')
 
     @staticmethod
     def validate_link(link: str) -> str:
@@ -129,3 +130,9 @@ if __name__ == '__main__':
     file_name = file_pattern.replace('{build}', build_number)
     file_link = f'/app/rest/builds/id:{build_id}/artifacts/content/{file_name}'
     clnt.download_file(file_link, file_name, target_dir)
+
+    choice = input('\nTry to install? y/n: ')
+
+    if choice == 'y':
+        install_dir = config['installer']['install_dir']
+        install_app(f'{target_dir}/{file_name}', install_dir)
