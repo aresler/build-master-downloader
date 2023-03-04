@@ -90,9 +90,9 @@ def validate_file_pattern(self):
 
 
 def find_latest_build(builds) -> dict:
-    _list = builds['build']
-
-    latest = max(_list, key=lambda x: x['id'])
+    # _list = builds['build']
+    # latest = max(_list, key=lambda x: x['id'])
+    latest = builds['build'][0]
     return latest
 
 
@@ -118,13 +118,13 @@ if __name__ == '__main__':
 
     builds = clnt.get(
         method=f'/app/rest/buildTypes/id:{build_type}/builds/',
-        params={'locator': 'branch:master,status:success,state:finished'}
+        params={'locator': 'branch:master,status:success,state:finished,count:1'}
+        # count:1 should always get the latest build
     )
 
-    latest_build = find_latest_build(builds)
-
-    build_id: int = latest_build['id']
-    build_number: str = latest_build['number']
+    build = find_latest_build(builds)
+    build_id: int = build['id']
+    build_number: str = build['number']
 
     file_name = file_pattern.replace('{build}', build_number)
     file_link = f'/app/rest/builds/id:{build_id}/artifacts/content/{file_name}'
