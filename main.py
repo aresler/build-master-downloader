@@ -40,10 +40,7 @@ class TCclient:
         token = self.token
         verify = self.verify
 
-        headers = {
-            'Accept': 'application/json',
-            'Authorization': f'Bearer {token}'
-        }
+        headers = {'Accept': 'application/json', 'Authorization': f'Bearer {token}'}
 
         method = self.validate_link(method)
 
@@ -63,9 +60,7 @@ class TCclient:
         token = self.token
         verify = self.verify
 
-        headers = {
-            'Authorization': f'Bearer {token}'
-        }
+        headers = {'Authorization': f'Bearer {token}'}
 
         link = self.validate_link(link)
         target_dir = self.validate_target_dir(target_dir)
@@ -102,12 +97,22 @@ if __name__ == '__main__':
     config.read(project_dir + '/config.ini')
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("-b", "--build-type", type=str, required=True,
-                        help="Built configuration ID")
-    parser.add_argument("-f", "--file-pattern", type=str, required=True,
-                        help="Artifact file pattern. E.g. pycharmPC-{build}-aarch64.dmg")
-    parser.add_argument("-t", "--target-dir", default=os.getcwd(), type=str, required=False,
-                        help="[OPTIONAL] Download directory. Default is current workdir")
+    parser.add_argument("-b", "--build-type", type=str, required=True, help="Built configuration ID")
+    parser.add_argument(
+        "-f",
+        "--file-pattern",
+        type=str,
+        required=True,
+        help="Artifact file pattern. E.g. pycharmPC-{build}-aarch64.dmg",
+    )
+    parser.add_argument(
+        "-t",
+        "--target-dir",
+        default=os.getcwd(),
+        type=str,
+        required=False,
+        help="[OPTIONAL] Download directory. Default is current workdir",
+    )
     args = parser.parse_args()
 
     clnt = TCclient(config)
@@ -118,7 +123,7 @@ if __name__ == '__main__':
 
     builds = clnt.get(
         method=f'/app/rest/buildTypes/id:{build_type}/builds/',
-        params={'locator': 'branch:master,status:success,state:finished,count:1'}
+        params={'locator': 'branch:master,status:success,state:finished,count:1'},
         # count:1 should always get the latest build
     )
 
